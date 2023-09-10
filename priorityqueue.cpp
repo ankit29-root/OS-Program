@@ -56,4 +56,3 @@ for(i=0;i<nop;i++){
  printf("Average Turnaround Time:%f\n",atat);
  getch();
 }
-
