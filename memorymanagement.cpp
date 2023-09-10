@@ -1,185 +1,53 @@
-#include<stdio.h>
+#include<iostream.h>
 #include<conio.h>
+struct paging
+{
+	int frameNumber,valid;
+};
 void main()
 {
-int f3[20],f2[20],r[20],r1[20],ms,bod,sb[20],nsb[20],nsb1[20],np,sp[20];
-int f[20],i,j,l,k,z[20],s=0;
-printf("enter the memory size:");
-scanf("%d",&ms);
-printf("\n enter the number of block of division of memory:");
-scanf("%d",&bod);
-printf("enter the size of each block:");
-for(i=1;i<=bod;i++)
-{
-printf("\nBlock[%d]:",i);
-scanf("%d",&sb[i]);
-f[i]=1;
-f2[i]=1;
-f3[i]=1;
-r[i]=1;
-r1[i]=1;
-z[i]=sb[i];
-}
-printf("\nenter the number of process:");
-scanf("%d",&np);
-printf("\nenter the size of each process:");
-for(i=1;i<=np;i++)
-{
-printf("\nprocess[%d]:",i);
-scanf("%d",&sp[i]);
-}
-printf("\n  FIRST FIT  ");
-printf("\n *********  ");
-for(i=1;i<=np;i++)
-{
-for(j=1;j<=bod;j++)
-{
-if((sb[j]>=sb[i]) && (f[j]!=0))
-{
-printf("\n Process p[%d] is allocated to Block[%d]",i,j);
-f[j]=0;
-z[j]=sb[j]-sp[i];
-s++;
-goto l1;
-}
-}
-printf("\n process p[%d] cannot be allocated",i);
-l1:
-printf(" ");
-}
-printf("\n\n Remaining space left in each block \n");
-printf("\n     ********************************** \n");
-for(i=1;i<=bod;i++)
-{
-printf("\n Block[%d]: free space =%d",i,z[i]);
-}
-printf("\n\nUnallocated Blocks");
-printf(" \n ******************");
-for(i=1;i<=bod;i++)
-{
-if(f[i]!=0)
-{
-printf("\n Block [%d] unallocated",i);
-}
-}
-if(s==bod)
-printf("\n No Block is left unallocated");
-getch();
-s=0;
-getch();
-printf("\n\n BEST FIT ");
-printf("\n   ******** ");
-for(i=2;i<=bod;i++)
-{
-for(j=1;j<i;j++)
-{
-if(sb[i]>=sb[j])
-r[i]++;
-else
-r[j]++;
-}
-}
-for(i=1;i<=bod;i++)
-{
-nsb[r[i]]=sb[i];
-z[r[i]]=sb[i];
-}
-for(i=1;i<=np;i++)
-{
-for(j=1;j<=bod;j++)
-{
-if((nsb[j]>=sp[i]) && (f2[j]!=0))
-{
-for(k=1;k<=bod;k++)
-{
-if(r[k]==j)
-l=k;
-}
-printf("\nProcess p[%d] is allocated to Block[%d]",i,l);
-f2[j]=0;
-z[j]=nsb[j]-sp[i];
-s++;
-goto l2;
-}
-}
-printf("\n process p[%d] cannot be allocated",i);
-l2:
-printf(" ");
-}
-printf("\n free space in each block \n");
-printf("   ************************ \n");
-for(i=1;i<=bod;i++)
-printf("\nBlock [%d]: free space =%d",i,z[r[i]]);
-
-printf("\n\nUnallocated Blocks");
-printf(" \n ******************");
-for(i=1;i<=bod;i++)
-{
-if(f2[r[i]]!=0)
-{
-printf("\n Block [%d] unallocated",i);
-}
-}
-if(s==bod)
-printf("\n No Block is left unallocated");
-getch();
-s=0;
-getch();
-printf("\n\n WORST FIT ");
-printf("\n   ********* ");
-for(i=2;i<=bod;i++)
-{
-for(j=1;j<i;j++)
-{
-if(sb[i]<=sb[j])
-r1[i]++;
-else
-r1[j]++;
-}
-}
-for(i=1;i<=bod;i++)
-{
-nsb1[r1[i]]=sb[i];
-z[r1[i]]=sb[i];
-}
-for(i=1;i<=np;i++)
-{
-for(j=1;j<=bod;j++)
-{
-if((nsb1[j]>=sp[i]) && (f3[j]!=0))
-{
-for(k=1;k<=bod;k++)
-{
-if(r1[k]==j)
-l=k;
-}
-printf("\nProcess p[%d] is allocated to Block[%d]",i,l);
-f3[j]=0;
-z[j]=nsb1[j]-sp[i];
-s++;
-goto l3;
-}
-}
-printf("\n process p[%d] cannot be allocated",i);
-l3:
-printf(" ");
-}
-printf("\n free space in each block \n");
-printf("   ************************ \n");
-for(i=1;i<=bod;i++)
-printf("\nBlock [%d]: free space =%d",i,z[r1[i]]);
-
-printf("\n\nUnallocated Blocks");
-printf(" \n ******************");
-for(i=1;i<=bod;i++)
-{
-if(f3[r1[i]]!=0)
-{
-printf("\n Block [%d] unallocated",i);
-}
-if(s==bod)
-printf("\n No Block is left unallocated");
-getch();
-printf("\n");
-}
+	int noOfPages = 0, baseAddress = 0, noOfFrames = 0, sizeOfMM = 0, sizeOfLM = 0, FrameSize = 0, physicalAddress = 0,disp = 0, pageNo = 0, logicalAddress = 0;
+	paging pageTable[10], frameTable[10];
+	clrscr();
+	cout << "Program for Paging techniques - Fixed Size partition";
+	cout << "\n\nEnter the base address of physical memory:";
+	cin >> baseAddress;
+	cout << "\nEnter the size of Main Memory:";
+	cin >> sizeOfMM;
+	cout << "\nEnter the size of Main Memory Frame:";
+	cin >> FrameSize;
+	noOfFrames = sizeOfMM / FrameSize;
+	cout << "\nTotal no. of frames in Main Memory is " << noOfFrames;
+	cout <<"\n Enter the size of Logical Memory:";
+	cin >> sizeOfLM;
+	noOfPages = sizeOfLM / FrameSize;
+	cout << "\n Total no. of pages in Logical Memory is " << noOfPages;
+	cout << "\n Enter the frame values in Page Table\n";
+	for(int i = 0; i < noOfPages; i++)
+	{
+		while(1)
+		{
+			cout << "\n Page " << i << " is stored in frame number:";
+			cin >> pageTable[i].frameNumber;
+			pageTable[pageTable[i].frameNumber].valid = 1;
+			frameTable[pageTable[i].frameNumber].valid = i;
+			break;
+		}
+	}
+	cout << "\n \t PAGE TABLE";
+	cout << "\nIndex|\t\tFrame Number|\tValid_Bit|\n\n";
+	for(i = 0; i < noOfPages; i++)
+	{
+		cout << i << "\t\t" << pageTable[i].frameNumber << "\t\t"<<pageTable[pageTable[i].frameNumber].valid <<"\t\n";
+	}
+	
+for(i=0;i<noOfPages; i++)
+	{
+		cout << "Enter the logical addresss for mapping process:";
+		cin >> logicalAddress;
+		pageNo = logicalAddress / FrameSize;
+		disp = logicalAddress % FrameSize;
+		physicalAddress =  baseAddress + ((pageTable[pageNo].frameNumber - 1) * FrameSize) + disp;
+		cout << "Physical Address value is " << physicalAddress << "\n";
+	}
 }
