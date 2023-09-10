@@ -51,7 +51,6 @@ printf("no.of items produced :%d",p);
 printf("\n no.of consumed items:%d",c);
 printf("\n no.of buffered item:%d",b);
 break;
-case 5:exit(0);
 }
 }
 while(s<=5);
